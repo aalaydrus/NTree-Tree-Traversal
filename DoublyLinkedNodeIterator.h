@@ -24,11 +24,16 @@ public:
 
 	DoublyLinkedNodeIterator( const Node& aList ); 
 	
-	const DataType& operator*() const;	// dereference
-	Iterator& operator++();				// prefix increment
-	Iterator operator++(int);			// postfix increment
-	Iterator& operator--();				// prefix decrement
-	Iterator operator--(int);			// postfix decrement
+	// dereference
+	const DataType& operator*() const;
+	// prefix increment
+	Iterator& operator++();	
+	// postfix increment
+	Iterator operator++(int);
+	// prefix decrement
+	Iterator& operator--();	
+	// postfix decrement
+	Iterator operator--(int);
 
 	bool operator==( const Iterator& aOtherIter ) const; 
 	bool operator!=( const Iterator& aOtherIter ) const;
@@ -45,161 +50,161 @@ template<class DataType>
 DoublyLinkedNodeIterator<DataType>::DoublyLinkedNodeIterator( const Node& aList )
 {
 	// set leftmost element
-	fLeftmost = &aList;															// 2
+	fLeftmost = &aList;
 
-	while ( &fLeftmost->getPrevious() != &Node::NIL )							// 3
+	while ( &fLeftmost->getPrevious() != &Node::NIL )
 	{
-		fLeftmost = &fLeftmost->getPrevious();									// 2
+		fLeftmost = &fLeftmost->getPrevious();	
 	}
 
 	// set current to first
-	fCurrent = fLeftmost;														// 1
+	fCurrent = fLeftmost;
 
-	if ( fCurrent != &Node::NIL )                                               // 2
+	if ( fCurrent != &Node::NIL )
 		fState = DATA;
 	else
-		fState = AFTER;                                                         // 1
+		fState = AFTER;
 
 	// set rightmost element
-	fRightmost = &aList;														// 2
+	fRightmost = &aList;
 
-	while ( &fRightmost->getNext() != &Node::NIL )								// 3
+	while ( &fRightmost->getNext() != &Node::NIL )
 	{
-		fRightmost = &fRightmost->getNext();									// 2/18
+		fRightmost = &fRightmost->getNext();
 	}
 }
 	
 template<class DataType> 
 const DataType& DoublyLinkedNodeIterator<DataType>::operator*() const
 {
-	return fCurrent->getValue();												// 2
+	return fCurrent->getValue();
 }
 
 template<class DataType>
 DoublyLinkedNodeIterator<DataType>& DoublyLinkedNodeIterator<DataType>::operator++()
 {
     // or if-then-else
-	switch ( fState )															// 2
+	switch ( fState )
 	{
-	case BEFORE:																// 1
-		fCurrent = fLeftmost;													// 1
-		if ( fCurrent == &Node::NIL )											// 2
+	case BEFORE:
+		fCurrent = fLeftmost;
+		if ( fCurrent == &Node::NIL )
 		{
 			fState = AFTER;
 		}
 		else
 		{
-			fState = DATA;														// 2
+			fState = DATA;
 		}
 		break;
-	case DATA:																	// 1
-		fCurrent = &fCurrent->getNext();										// 2
-		if ( fCurrent == &Node::NIL )											// 2
+	case DATA:
+		fCurrent = &fCurrent->getNext();
+		if ( fCurrent == &Node::NIL )
 		{
-			fState = AFTER;														// 1
+			fState = AFTER;
 		}
 		break;
 	default: ;
 	}
 
-	return *this;																// 1/15
+	return *this;
 }
 
 template<class DataType> 
 DoublyLinkedNodeIterator<DataType> DoublyLinkedNodeIterator<DataType>::operator++(int)
 {
-	Iterator temp = *this;														// 2
+	Iterator temp = *this;
 
-	++(*this);																	// 2
+	++(*this);
 
-	return temp;																// 1/5
+	return temp;
 }
 
 template<class DataType> 
 DoublyLinkedNodeIterator<DataType>& DoublyLinkedNodeIterator<DataType>::operator--()
 {
-	switch ( fState )															// 2
+	switch ( fState )
 	{
-	case AFTER:																	// 1
-		fCurrent = fRightmost;													// 1
-		if ( fCurrent == &Node::NIL )											// 2
+	case AFTER:
+		fCurrent = fRightmost;
+		if ( fCurrent == &Node::NIL )
 		{
 			fState = BEFORE;
 		}
 		else
 		{
-			fState = DATA;														// 2
+			fState = DATA;
 		}
 		break;
-	case DATA:																	// 1
-		fCurrent = &fCurrent->getPrevious();									// 2
-		if ( fCurrent == &Node::NIL )											// 2
+	case DATA:
+		fCurrent = &fCurrent->getPrevious();
+		if ( fCurrent == &Node::NIL )
 		{
-			fState = BEFORE;													// 1
+			fState = BEFORE;
 		}
 		break;
 	default: ;
 	}
 
-	return *this;																// 1/15
+	return *this;
 }
 
 template<class DataType> 
 DoublyLinkedNodeIterator<DataType> DoublyLinkedNodeIterator<DataType>::operator--(int)
 {
-	Iterator temp = *this;														// 2
+	Iterator temp = *this;
 
-	--(*this);																	// 2
+	--(*this);
 
-	return temp;																// 1/5
+	return temp;
 }
 
 template<class DataType> 
 bool DoublyLinkedNodeIterator<DataType>::operator==( const Iterator& aOtherIter ) const
 {
-	return fLeftmost == aOtherIter.fLeftmost &&									// 2
-		fRightmost == aOtherIter.fRightmost &&									// 2
-		fCurrent == aOtherIter.fCurrent &&										// 2
-		fState == aOtherIter.fState;											// 2/8
+	return fLeftmost == aOtherIter.fLeftmost &&
+		fRightmost == aOtherIter.fRightmost &&
+		fCurrent == aOtherIter.fCurrent &&
+		fState == aOtherIter.fState;
 }
 
 template<class DataType> 
 bool DoublyLinkedNodeIterator<DataType>::operator!=( const Iterator& aOtherIter ) const
 {
-	return !(*this == aOtherIter);												// 2
+	return !(*this == aOtherIter);
 }
 
 template<class DataType>
 DoublyLinkedNodeIterator<DataType> DoublyLinkedNodeIterator<DataType>::begin() const
 {
-    return ++(rend());                                                          // 2
+    return ++(rend());
 }
 
 template<class DataType>
 DoublyLinkedNodeIterator<DataType> DoublyLinkedNodeIterator<DataType>::end() const
 {
-    Iterator temp = *this;														// 2
+    Iterator temp = *this;
     
-    temp.fCurrent = &Node::NIL;													// 2
-    temp.fState = AFTER;														// 1
+    temp.fCurrent = &Node::NIL;
+    temp.fState = AFTER;
     
-    return temp;																// 1/6
+    return temp;
 }
 
 template<class DataType>
 DoublyLinkedNodeIterator<DataType> DoublyLinkedNodeIterator<DataType>::rbegin() const
 {
-    return --(end());                                                           // 2
+    return --(end());
 }
 
 template<class DataType>
 DoublyLinkedNodeIterator<DataType> DoublyLinkedNodeIterator<DataType>::rend() const
 {
-	Iterator temp = *this;														// 2
+	Iterator temp = *this;
 
-	temp.fCurrent = &Node::NIL;													// 2
-	temp.fState = BEFORE;														// 1
+	temp.fCurrent = &Node::NIL;
+	temp.fState = BEFORE;
 
-	return temp;																// 1/6
+	return temp;
 }
 
