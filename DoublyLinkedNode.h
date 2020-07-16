@@ -1,6 +1,3 @@
-
-// COS30008, Tutorial 7, 2020
-
 #pragma once
 
 template<class DataType>
