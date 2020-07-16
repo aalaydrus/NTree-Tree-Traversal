@@ -1,6 +1,3 @@
-
-// COS30008, Problem Set 5, 2020
-
 #pragma once
 
 #include "DoublyLinkedNode.h"
