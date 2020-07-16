@@ -1,6 +1,3 @@
-
-// COS30008, Problem Set 7, 2020
-
 #include <iostream>
 #include <string>
 #include "List.h"
